@@ -1,3 +1,4 @@
+<script>
 const fs = require("fs");
 const obj = require("through2").obj;
 const pager = require("default-pager");
@@ -88,3 +89,4 @@ fs.stat(translation, function (err, stats) {
     )
     .pipe(pager());
 });
+<script/>
