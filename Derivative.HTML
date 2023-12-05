@@ -1,0 +1,60 @@
+<label for="input">Enter a character:</label>
+<input type="text" id="input">
+<button onclick="addChar()">Add</button>
+<button onclick="deleteChar()" id="deleteButton" disabled>Delete</button>
+<p id="output"></p>
+
+<script>
+  var str = "";
+  var output = document.getElementById("output");
+  var input = document.getElementById("input");
+  var deleteButton = document.getElementById("deleteButton");
+
+  function addChar() {
+    if (input.value.length > 0) {
+      var index = input.selectionStart;
+      str = str.slice(0, index) + input.value + str.slice(index);
+      output.innerHTML = str;
+      deleteButton.disabled = false;
+      var charCount = countChar(input.value, str);
+      var searchResult = findString(input.value, str);
+      if (charCount > 0) {
+        output.innerHTML += "<br>Character count: " + charCount;
+      }
+      if (searchResult) {
+        output.innerHTML += "<br>String found " + charCount + " times. Characters before and after the string: " + searchResult;
+      }
+    }
+  }
+
+  function deleteChar() {
+    var index = input.selectionStart;
+    if (str.length > 0 && index > 0) {
+      str = str.slice(0, index - 1) + str.slice(index);
+      output.innerHTML = str;
+    }
+    if (str.length == 0) {
+      deleteButton.disabled = true;
+    }
+  }
+
+  function countChar(char, str) {
+    let num = 0;
+    let pos = str.indexOf(char);
+    while (pos > -1) {
+      pos = str.indexOf(char, pos + 1);
+      num++;
+    }
+    return num;
+  }
+
+  function findString(searchStr, str) {
+    var index = str.indexOf(searchStr);
+    if (index === -1) {
+      return null;
+    }
+    var before = str.substring(0, index);
+    var after = str.substring(index + searchStr.length);
+    return before + "<b>" + searchStr + "</b>" + after;
+  }
+</script>
